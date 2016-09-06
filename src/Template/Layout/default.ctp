@@ -28,25 +28,30 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
     <?= $this->Html->css('base.css') ?>
     <?= $this->Html->css('cake.css') ?>
-
+	<?= $this->Html->css('bootstrap.min.css') ?>
+    <script type="text/javascript">
+  	var resetLink=false;
+	var token='<?php echo $this->request->param('_csrfToken');?>';
+	var siteUrl='<?php echo $this->request->webroot;?>';
+	<?php if($this->request->session()->read('resetAuth')){?>
+		var resetLink=true;
+	<?php }?>
+</script>  
+    <?= $this->Html->script(['angular.min','angular-animate.min','angular-sanitize.min','angular-touch.min','ui-bootstrap.min','home','login']); ?> 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 </head>
-<body>
-    <nav class="top-bar expanded" data-topbar role="navigation">
-        <ul class="title-area large-3 medium-4 columns">
-            <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
+<body ng-app="fav">
+<header id="header-section" class="scroll-header" ng-controller="NavCtrl">
+    <nav class="menu-container underscore-container menu-container-fade {{mobClass}}">
+        <ul>
+            <li>
+                <h1> <a class="login" data-toggle="modal" ng-click="lopen('sm')" href="javascript:void(0);"> Login/Register </a></h1>
             </li>
         </ul>
-        <div class="top-bar-section">
-            <ul class="right">
-                <li><a target="_blank" href="http://book.cakephp.org/3.0/">Documentation</a></li>
-                <li><a target="_blank" href="http://api.cakephp.org/3.0/">API</a></li>
-            </ul>
-        </div>
     </nav>
+    </header>
     <?= $this->Flash->render() ?>
     <div class="container clearfix">
         <?= $this->fetch('content') ?>
