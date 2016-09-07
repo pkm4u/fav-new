@@ -55,8 +55,7 @@ class UsersTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->allowEmpty('username')
-            ->add('username', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->allowEmpty('name');
 
         $validator
             ->email('email')
@@ -91,7 +90,7 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['username']));
+        
         $rules->add($rules->isUnique(['email']));
         $rules->add($rules->existsIn(['user_type_id'], 'UserTypes'));
         return $rules;
@@ -99,7 +98,7 @@ class UsersTable extends Table
 	
 	public function findAuth(\Cake\ORM\Query $query, array $options)
 	{
-		$query->where(['Users.status' => 'active'])->contain(['UserTypes']);
+		$query->contain(['UserTypes']);
 		return $query;
 	}
 }

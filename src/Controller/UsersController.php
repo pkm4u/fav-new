@@ -54,19 +54,19 @@ class UsersController extends AppController
 		if(empty($this->request->data['username'])){
 			$error=true;
 			$out['type']='danger';
-			$out['msg'][]='Please enter username.';
+			$out['msg']['email']='Please enter username.';
 		}
 		if(empty($this->request->data['password'])){
 			$error=true;
 			$out['type']='danger';
-			$out['msg'][]='Please enter password.';
+			$out['msg']['password']='Please enter password.';
 		}
 		if($error){
 			echo json_encode($out);	
 		}else{
 			
 			$user = $this->Auth->identify();
-			//pr($user);
+			pr($user);
 			if ($user) {
 				$this->Auth->setUser($user);
 				$out['type']='success';
@@ -90,7 +90,7 @@ class UsersController extends AppController
 			$out['msg'][]='Please enter username or email address.';
 			echo json_encode($out);	
 		}else{
-		$userData= $users->find()->where(['username' => $this->request->data['username']])->orWhere(['email' => $this->request->data['username']])->first();
+		$userData= $users->find()->where(['email' => $this->request->data['username']])->first();
 			if(empty($userData)){
 				$out['type']='danger';
 				$out['msg'][]='Username/Email is incorect, Please try again.';
@@ -110,7 +110,7 @@ class UsersController extends AppController
 					$mailData['template']='forgotpass';
 					$mailData['toemail']=$userNewdata['email'];
 					$mailData['subject']='Reset Password';
-					$this->SendMail->sendmail($mailData);
+					//$this->SendMail->sendmail($mailData);
 					$out['type']='success';
 					$out['msg'][]='A password reset link send on your email.';
 					echo json_encode($out);	
@@ -181,15 +181,15 @@ class UsersController extends AppController
 	{
 		if($authToken){
 			$this->request->session()->write('resetAuth',$authToken);
-			$this->redirect(['controller' => 'Villages','action' => 'index']);
+			$this->redirect(['controller' => 'Home','action' => 'index']);
 		}
-		$this->redirect(['controller' => 'Villages','action' => 'index']);
+		$this->redirect(['controller' => 'Home','action' => 'index']);
 	}
 	
 	public function logout(){
 		$this->Auth->logout();
 		 $this->redirect([
-			'controller' => 'Villages',
+			'controller' => 'Home',
 			'action' => 'index'
 		]);
 	}

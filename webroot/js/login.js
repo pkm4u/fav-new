@@ -22,7 +22,6 @@ app.controller('NavCtrl', function ($scope,$rootScope, $uibModal,$log) {
       animation: true,
       templateUrl: siteUrl+'users/login',
       controller: 'LoginCtrl',
-      size: size,
       resolve: {
         
       }
@@ -53,7 +52,7 @@ app.controller('NavCtrl', function ($scope,$rootScope, $uibModal,$log) {
   }
   
   $rootScope.closeAlert = function(index) {
-    $rootScope.alerts.splice(index, 1);
+	  delete $rootScope.alerts[index];
   };
 });
 

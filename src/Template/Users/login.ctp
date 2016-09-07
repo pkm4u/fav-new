@@ -1,24 +1,47 @@
 <?php ?>
-<div class="modal-content" id="userLoginForm">
-  <form accept-charset="utf-8" method="post" id="loginform" action="{{base_url}}">
-    <div class="modal-header">
-      <button class="close" type="button" ng-click="cancel()"><span aria-hidden="true">×</span></button>
-      <h4 id="myModalLabel-1" class="modal-title">Sign In</h4>
-    </div>
-    <div id="notification">
-    <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alerttype || 'danger')" close="closeAlert($index)">{{alert}}</div>
-    </div>
-    <div class="modal-body">
-      <fieldset>
-        <div class="form-group">
-          <input type="text" id="ULoginUsername" maxlength="50" required placeholder="User Name" class="form-control" name="username" ng-model="username">
-        </div>
-        <div class="form-group">
-          <input type="password" id="ULoginPassword" required placeholder="Password" class="form-control" name="password" ng-model="password">
-        </div>
-      </fieldset>
-      <button ng-click="userLogin();" class="btn btn-primary btn-block" type="button" id="loginBtn">Login</button>
-      Forgot Password ? <a ng-click="forgotpass('sm')" class="link" href="javascript:void(0)">Click here</a> </div>
-    <div class="modal-footer"> Don't have an account? <a ng-click="ropen('sm');" class="link" href="javascript:void(0)">Register</a> </div>
-  </form>
+<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="btn close" data-dismiss="modal" aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="login-modal">Login to your account</h4>
+		  </div>
+          
+		  <div class="modal-body">
+			<div class="row">
+                            <div class="col-sm-6 b-r"><h3 class="m-t-none m-b">Sign in</h3>
+                                <p>Sign in today for more expirience.</p>
+                                <form role="form" action="{{base_url}}">
+                                    <div class="form-group">
+                                    <label>Email</label> 
+                                    <input type="email" maxlength="50" required placeholder="Enter Email" class="form-control" name="username" ng-model="username">
+                                    <div ng-show="alerts.email" uib-alert ng-class="'alert-' + (alerttype || 'danger')" close="closeAlert('email')">{{alerts.email}}</div>
+                                    </div>
+                                    <div class="form-group"><label>Password</label><input type="password" required placeholder="Password" class="form-control" name="password" ng-model="password">
+                                     <div ng-show="alerts.password" uib-alert ng-class="'alert-' + (alerttype || 'danger')" close="closeAlert('password')">{{alerts.password}}</div>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit" ng-click="userLogin();"><strong>Log in</strong></button>
+                                        <label class=""> 
+<div class="icheckbox_square-green" style="position: relative;"><input type="checkbox" class="i-checks" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div>									
+Remember me </label>
+                                    </div>
+                                    
+                                     Forgot Password ? <a ng-click="forgotpass('sm')" class="link" href="javascript:void(0)">Click here</a> 
+                                </form>
+                                </div>
+                           
+            <div class="col-sm-6"><h4>Not a member?</h4>
+                                <p>You can create an account:</p>
+                                <p class="text-center">
+                                    <a href="" ng-click="ropen('sm');"><i class="fa fa-sign-in big-icon"></i></a>
+                                </p>
+                            </div>
+                             </div>
+           </div>
 </div>
+
+		  
+
+	  
+
+
+
