@@ -48,18 +48,7 @@ class UserTypesTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->allowEmpty('type_name');
-
-        $validator
-            ->allowEmpty('role_type');
-
-        $validator
-            ->dateTime('created_date')
-            ->allowEmpty('created_date');
-
-        $validator
-            ->dateTime('modify_date')
-            ->allowEmpty('modify_date');
+            ->allowEmpty('user_type_name');
 
         return $validator;
     }

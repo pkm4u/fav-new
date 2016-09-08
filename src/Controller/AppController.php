@@ -41,18 +41,20 @@ class AppController extends Controller
     {
         parent::initialize();
 
-         $this->loadComponent('RequestHandler');
+        $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
 		$this->loadComponent('Csrf');
+		$this->loadComponent('Cookie');
 		//$this->loadComponent('SendMail');
 		 $this->loadComponent('Auth', [
 				'authenticate' => [
 					'Form' => [
-						'finder' => 'auth',
+						'finder' => 'Auth',
 						'fields' => ['username' => 'email', 'password' => 'password'],
 						'userModel' => 'Users'
 					],
 				],
+				'ajaxLogin'=>'login',
 				'loginRedirect' => [
 					'controller' => 'Home',
 					'action' => 'index'

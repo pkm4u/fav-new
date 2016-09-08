@@ -42,7 +42,7 @@ use Cake\Routing\Route\DashedRoute;
  *
  */
 Router::defaultRouteClass(DashedRoute::class);
-
+//Router::extensions('json', 'xml');
 Router::scope('/', function (RouteBuilder $routes) {
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
@@ -50,11 +50,12 @@ Router::scope('/', function (RouteBuilder $routes) {
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
     $routes->connect('/', ['controller' => 'Home', 'action' => 'index']);
-
+	$routes->connect('/postproperty', ['controller' => 'Postproperty', 'action' => 'index']);
+	$routes->connect('/logout', ['controller' => 'Users', 'action' => 'logout']);
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
      */
-    $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'index']);
+    //$routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'index']);
 
     /**
      * Connect catchall routes for all controllers.

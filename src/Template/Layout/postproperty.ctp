@@ -31,16 +31,20 @@
     <script type="text/javascript">
   	var resetLink=false;
 	var userLogin=false;
+	var user='';
 	var token='<?php echo $this->request->param('_csrfToken');?>';
 	var siteUrl='<?php echo $this->request->webroot;?>';
 	<?php if($this->request->session()->read('resetAuth')){?>
 		resetLink=true;
 	<?php }?>
+	<?php if($this->request->session()->read('Auth.User.id')){?>
+		 user = '<?php echo json_encode($this->request->session()->read('Auth'));?>';
+	<?php }?>
 	<?php if(isset($Login)){?>
 		 userLogin=true;
 	<?php }?>
 </script>  
-    <?= $this->Html->script(['angular.min','angular-animate.min','angular-sanitize.min','angular-touch.min','ui-bootstrap.min','home','login']); ?> 
+    <?= $this->Html->script(['angular.min','angular-animate.min','angular-sanitize.min','angular-touch.min','ui-bootstrap.min','postproperty','login']); ?> 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
@@ -63,8 +67,12 @@
                     <li class="hidden active">
                         <a href="#page-top"></a>
                     </li>
-                    <li class="page-scroll">
+                    
+                    <li class="page-scroll" ng-if="!loginUser">
                         <a data-toggle="modal" ng-click="lopen('sm')" href="javascript:void(0);" class="btn btn-primary mrtp20">Login</a>
+                    </li>
+                    <li class="page-scroll" ng-if="loginUser">
+                        <a href="{{base_url}}logout" class="btn btn-primary mrtp20">Logout</a>
                     </li>
                     <li class="page-scroll">
                         <a href="{{base_url}}postproperty" class="btn btn-primary mrtp20">Post</a>
@@ -74,12 +82,33 @@
             <!-- /.navbar-collapse -->
 		
     </div>
-</header>
-
-    <?= $this->Flash->render() ?>
-    <section >
+</header>   
+    <section ng-controller="FavController">
+      <header class="page-header">
+		    <div class="container">
+				<a href="#" class=""><i class="fa fa-long-arrow-left"></i></a>
+				<h2 class="text-center ">List your Property</h2>
+			</div>
+	    </header>
+		<div class="container">
+			<div class="row">
+			   <div class="col-md-12">
+               <div class="col-md-3 pdallnone">
+				    <nav class="sidenav">
+						<ul>
+							<li class="first active"><a href="#" ng-click="post();"><span><i class="fa fa-list-ul"></i></span> Basic Information</a></li>
+							<li><a href="#"><span><i class="fa fa-list-ul"></i></span> Amenities</a></li>
+							<li><a href="#"><span><i class="fa fa-map-marker"></i></span> Location</a></li>
+							<li><a href="#"><span><i class="fa fa-picture-o"></i></span> Pictures/Photos</a></li>
+							<li><a href="#"><span><i class="fa fa-inr"></i></span> Price Detail</a></li>
+							<li class="last "><a href="#"><span><i class="fa fa-envelope"></i></span> Contact Detail</a></li>
+						</ul>
+					</nav>
+				 </div>
         <?= $this->fetch('content') ?>
+        </div>
+		</div>
+		</div>
    </section>
-    
 </body>
 </html>

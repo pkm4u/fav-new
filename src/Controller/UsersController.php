@@ -8,6 +8,7 @@ Use Cake\Event\Event;
 use Cake\Filesystem\File;
 use Cake\Utility\Text;
 use Cake\Routing\Router;
+//use Cake\Controller\Component\CookieComponent;
 
 /**
  * Villages Controller
@@ -38,6 +39,8 @@ class UsersController extends AppController
 	public function login()
     {
 		$this->viewBuilder()->layout('ajax');
+		echo $this->Cookie->read('name');
+		pr($rembValue);
     }
 	public function register()
 	{
@@ -51,10 +54,10 @@ class UsersController extends AppController
 	public function ajaxLogin()
 	{
 		$error=false;
-		if(empty($this->request->data['username'])){
+		if(empty($this->request->data['email'])){
 			$error=true;
 			$out['type']='danger';
-			$out['msg']['email']='Please enter username.';
+			$out['msg']['email']='Please enter email.';
 		}
 		if(empty($this->request->data['password'])){
 			$error=true;
@@ -64,17 +67,29 @@ class UsersController extends AppController
 		if($error){
 			echo json_encode($out);	
 		}else{
-			
 			$user = $this->Auth->identify();
-			pr($user);
-			if ($user) {
+			if ($user){
 				$this->Auth->setUser($user);
 				$out['type']='success';
-				$out['msg'][]='Successfully login.';
+				$out['msg']['sucess']='Successfully login.';
+				$out['user']=$this->Auth->user();
+				if($this->request->data['remember']){
+					$this->Cookie->configKey('Remember', 'path', '/');
+					$this->Cookie->configKey('Remember', [
+						'expires' => '+10 days',
+						'httpOnly' => true
+					]);
+					$this->Cookie->write('Remember', 'Larryyyyyyy');
+					echo $this->Cookie->read('Remember');
+					pr($this->request->data);
+					die;
+				}
+				
 				echo json_encode($out);	
+				
 			} else {
 				$out['type']='danger';
-				$out['msg'][]='Username or password is incorrect.';
+				$out['msg']['error']='Username or password is incorrect.';
 				echo json_encode($out);	
 			}
 		}
@@ -189,7 +204,7 @@ class UsersController extends AppController
 	public function logout(){
 		$this->Auth->logout();
 		 $this->redirect([
-			'controller' => 'Home',
+			'controller' => 'Postproperty',
 			'action' => 'index'
 		]);
 	}

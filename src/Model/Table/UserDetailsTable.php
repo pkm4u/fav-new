@@ -22,7 +22,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\WvPageDetail[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\WvPageDetail findOrCreate($search, callable $callback = null)
  */
-class PageDetailsTable extends Table
+class UserDetailsTable extends Table
 {
 
     /**
@@ -35,16 +35,9 @@ class PageDetailsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('wv_page_details');
-        $this->displayField('title');
-        $this->primaryKey('id');
-
-        $this->belongsTo('PageTypes', [
-            'foreignKey' => 'page_type_id'
-        ]);
-        $this->belongsTo('VillageTypes', [
-            'foreignKey' => 'village_type_id'
-        ]);
+        $this->table('user_details');
+        $this->displayField('id');
+        $this->primaryKey('id');        
     }
 
     /**

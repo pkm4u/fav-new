@@ -1,5 +1,10 @@
 app.controller('NavCtrl', function ($scope,$rootScope, $uibModal,$log) {
+	if(user){
+		user=JSON.parse(user);
+		$rootScope.loginUser=user.User;
+	}
   $rootScope.mobClass='';
+  $rootScope.base_url=siteUrl;
    $rootScope.navmenu=function(obj){
 	  
 	  if($rootScope.mobClass==='menu-show'){
@@ -39,6 +44,17 @@ app.controller('NavCtrl', function ($scope,$rootScope, $uibModal,$log) {
 		$rootScope.rpmodalInstance.close();
 	  }  
   }; 
+  if(userLogin){
+  	$rootScope.lmodalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: siteUrl+'users/login',
+      controller: 'LoginCtrl',
+      resolve: {
+        
+      }
+    });
+  }
+  
  if(resetLink){
   	 $rootScope.rpmodalInstance = $uibModal.open({
       animation: true,
@@ -98,14 +114,17 @@ app.controller('LoginCtrl', function ($scope,$rootScope, $uibModal, $uibModalIns
 				  method: 'POST',
 				  url:  siteUrl+'users/ajaxLogin/',
 				  headers: {'X-CSRF-TOKEN': token},
-				  data:{username:$scope.username,password:$scope.password}
+				  data:{email:$scope.email,password:$scope.password,remember:$scope.remember}
 				}
 	$http(request).then(function successCallback(response) {
 			$rootScope.pageLoader=false;
 			$rootScope.alerttype=response.data.type;
 			$rootScope.alerts=response.data.msg;
 			if(response.data.type=='success'){
-				
+				$rootScope.loginUser=response.data.user;
+			  if($rootScope.lmodalInstance){
+				$rootScope.lmodalInstance.close();
+			  }
 			}
 		}, function errorCallback(response) {
 			$rootScope.pageLoader=false;
