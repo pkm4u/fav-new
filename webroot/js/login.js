@@ -156,9 +156,9 @@ app.controller('RegisterCtrl', function ($scope,$rootScope, $uibModal, $uibModal
 			$rootScope.alerts=response.data.msg;
 			if(response.data.type=='success'){
 				$scope.flash= 'You Have Successfully Registered!';
-				if($rootScope.rpmodalInstance){
-						$rootScope.rpmodalInstance.close();
-					  }  
+				if($rootScope.rmodalInstance){
+					$rootScope.rmodalInstance.close();
+				}
 			}
 		}, function errorCallback(response) {
 			$rootScope.pageLoader=false;
