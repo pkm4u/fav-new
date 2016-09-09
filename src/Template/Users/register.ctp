@@ -10,7 +10,7 @@
     </div>
     <div id="notification"></div>
     <div class="modal-body">
-     
+	{{flash}}
         <div class="row">
                 <form role="form" action="{{base_url}}">
 				 <fieldset>
