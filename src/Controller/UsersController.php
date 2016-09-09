@@ -102,14 +102,19 @@ class UsersController extends AppController
 		if($this->request->data){
 		
 			$users = TableRegistry::get('Users');
-				
+				$userdetails = TableRegistry::get('UserDetails');
 				$user = $users->newEntity();
 				if ($this->request->is('post')) {
 					$this->request->data['prefix']= $this->request->data['prefix']['value'];
 				
 					$user = $users->patchEntity($user, $this->request->data);
 					
-					if ($users->save($user)) {
+					if ($us = $users->save($user)) {
+						$this->request->data['user_id']=$us->id;
+						
+						$userdetail = $userdetails->newEntity();
+						$userdetail = $userdetails->patchEntity($userdetail, $this->request->data);
+						$userdetails->save($userdetail);
 						$out['type']='success';
 						$out['msg'][]='Successfully Registered.';
 						echo json_encode($out);	
