@@ -40,10 +40,6 @@ class UsersTable extends Table
             'foreignKey' => 'user_type_id',
             'joinType' => 'INNER'
         ]);
-		$this->hasOne('UserDetails', [
-            'foreignKey' => 'user_id',
-            'joinType' => 'INNER'
-        ]);
     }
 
     /**
@@ -165,7 +161,7 @@ class UsersTable extends Table
 	
 	public function findAuth(\Cake\ORM\Query $query, array $options)
 	{
-		$query->where(['Users.status' => 'Active'])->contain(['UserTypes','UserDetails']);
+		$query->contain(['UserTypes']);
 		return $query;
 	}
 }

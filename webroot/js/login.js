@@ -83,7 +83,7 @@ app.controller('LoginCtrl', function ($scope,$rootScope, $uibModal, $uibModalIns
       animation: true,
       templateUrl: siteUrl+'users/register',
       controller: 'RegisterCtrl',
-      size: size,
+      
       resolve: {
         
       }
@@ -132,8 +132,35 @@ app.controller('LoginCtrl', function ($scope,$rootScope, $uibModal, $uibModalIns
   };
 });
 
-app.controller('RegisterCtrl', function ($scope,$rootScope, $uibModal, $uibModalInstance,$http) {
+app.controller('RegisterCtrl', function ($scope,$rootScope, $uibModal, $uibModalInstance,$http,$window) {
+	$scope.options = [{ name: "+91 (IND)", value: "91" }, { name: "+44 (GBR)", value:"44"},{name:"+1 (USA)",value:"1"},{name:"+61 (AUS)",value:"61"},{name:"+60 (MYS)",value:"60"},{name:"+971 (ARE)",value:"971"}];
+	$scope.selectedOption = $scope.options[0];
+	$scope.setusertype=function(value){
+    $scope.currentVal=value;
 	
+  };
+	 $rootScope.userRegister = function () {
+		
+	  $rootScope.pageLoader=true;
+	  $rootScope.alerts='';
+	  var request={
+				  method: 'POST',
+				  url:  siteUrl+'users/ajaxRegister/',
+				  headers: {'X-CSRF-TOKEN': token},
+				  data:{name:$scope.name,email:$scope.email,password:$scope.password,prefix:$scope.selectedOption,phone:$scope.mobile,usertype:$scope.currentVal}
+				}
+	$http(request).then(function successCallback(response) {
+		
+			$rootScope.pageLoader=false;
+			$rootScope.alerttype=response.data.type;
+			$rootScope.alerts=response.data.msg;
+			if(response.data.type=='success'){
+				
+			}
+		}, function errorCallback(response) {
+			$rootScope.pageLoader=false;
+	});
+  };
 });
 
 app.controller('ResetCtrl', function ($scope,$rootScope, $uibModal, $uibModalInstance,$http) {
@@ -168,6 +195,7 @@ app.controller('ResetCtrl', function ($scope,$rootScope, $uibModal, $uibModalIns
 				  data:{password:$scope.newpassword,repassword:$scope.renewpassword}
 				}
 	$http(request).then(function successCallback(response) {
+		
 			$rootScope.pageLoader=false;
 			$rootScope.alerttype=response.data.type;
 			$rootScope.alerts=response.data.msg;

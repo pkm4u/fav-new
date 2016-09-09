@@ -8,7 +8,6 @@ Use Cake\Event\Event;
 use Cake\Filesystem\File;
 use Cake\Utility\Text;
 use Cake\Routing\Router;
-//use Cake\Controller\Component\CookieComponent;
 
 /**
  * Villages Controller
@@ -39,8 +38,6 @@ class UsersController extends AppController
 	public function login()
     {
 		$this->viewBuilder()->layout('ajax');
-		echo $this->Cookie->read('name');
-		pr($rembValue);
     }
 	public function register()
 	{
@@ -54,10 +51,10 @@ class UsersController extends AppController
 	public function ajaxLogin()
 	{
 		$error=false;
-		if(empty($this->request->data['email'])){
+		if(empty($this->request->data['username'])){
 			$error=true;
 			$out['type']='danger';
-			$out['msg']['email']='Please enter email.';
+			$out['msg']['email']='Please enter username.';
 		}
 		if(empty($this->request->data['password'])){
 			$error=true;
@@ -67,29 +64,17 @@ class UsersController extends AppController
 		if($error){
 			echo json_encode($out);	
 		}else{
+			
 			$user = $this->Auth->identify();
-			if ($user){
+			pr($user);
+			if ($user) {
 				$this->Auth->setUser($user);
 				$out['type']='success';
-				$out['msg']['sucess']='Successfully login.';
-				$out['user']=$this->Auth->user();
-				if($this->request->data['remember']){
-					$this->Cookie->configKey('Remember', 'path', '/');
-					$this->Cookie->configKey('Remember', [
-						'expires' => '+10 days',
-						'httpOnly' => true
-					]);
-					$this->Cookie->write('Remember', 'Larryyyyyyy');
-					echo $this->Cookie->read('Remember');
-					pr($this->request->data);
-					die;
-				}
-				
+				$out['msg'][]='Successfully login.';
 				echo json_encode($out);	
-				
 			} else {
 				$out['type']='danger';
-				$out['msg']['error']='Username or password is incorrect.';
+				$out['msg'][]='Username or password is incorrect.';
 				echo json_encode($out);	
 			}
 		}
@@ -247,7 +232,7 @@ class UsersController extends AppController
 	public function logout(){
 		$this->Auth->logout();
 		 $this->redirect([
-			'controller' => 'Postproperty',
+			'controller' => 'Home',
 			'action' => 'index'
 		]);
 	}
