@@ -106,7 +106,7 @@ class UsersController extends AppController
 				$user = $users->newEntity();
 				if ($this->request->is('post')) {
 					$this->request->data['prefix']= $this->request->data['prefix']['value'];
-					$this->request->data['user_type_id']= $this->request->data['user_type'];
+					$this->request->data['user_type_id']= $this->request->data['usertype'];
 					$user = $users->patchEntity($user, $this->request->data);
 					
 					if ($us = $users->save($user)) {
