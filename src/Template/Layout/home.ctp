@@ -28,13 +28,17 @@
     <link href="https://fonts.googleapis.com/css?family=Carrois+Gothic|Open+Sans|Raleway" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
-    <script type="text/javascript">
+  <script type="text/javascript">
   	var resetLink=false;
 	var userLogin=false;
+	var user='';
 	var token='<?php echo $this->request->param('_csrfToken');?>';
 	var siteUrl='<?php echo $this->request->webroot;?>';
 	<?php if($this->request->session()->read('resetAuth')){?>
 		resetLink=true;
+	<?php }?>
+	<?php if($this->request->session()->read('Auth.User.id')){?>
+		 user = '<?php echo json_encode($this->request->session()->read('Auth'));?>';
 	<?php }?>
 	<?php if(isset($Login)){?>
 		 userLogin=true;
