@@ -25,7 +25,7 @@ class UsersController extends AppController
 	public function beforeFilter(Event $event)
 	{
 		parent::beforeFilter($event);
-		$this->Auth->allow(['index','login','register','register','resetpassword','ajaxLogin','ajaxRegister','resetstepone','passwordreset','setnewpassword','activation']);
+		$this->Auth->allow(['index','login','register','register','resetpassword','ajaxLogin','ajaxRegister','resetstepone','passwordreset','setnewpassword','activation','ajaxActivate']);
 	}
     /**
      * Index method
@@ -46,8 +46,9 @@ class UsersController extends AppController
 	{
 		$this->viewBuilder()->layout('ajax');
 	}
-	public function activation()
+	public function activation($id = null)
 	{
+		$this->set('user_id',$id);
 		$this->viewBuilder()->layout('ajax');
 	}
 	public function resetpassword()
@@ -109,21 +110,32 @@ class UsersController extends AppController
 			$out['msg']['code']='Please enter code.';
 			echo json_encode($out);	
 		}else{
+			
 			$users = TableRegistry::get('Users');
-			$userData= $users->get($this->request->data['id']);;
+			$userData= $users->get($this->request->data['userid']);;
 			if($this->request->data['code']==$userData['register_otp']){
 				$data['verification_by_phone']='1';
 				$user = $users->patchEntity($userData, $data, ['validate' => false]);
 				$users->save($user);
-				$authUser = $users->get($this->request->data['id'])->toArray();
+				$authUser = $users->get($this->request->data['userid'])->toArray();
 				$this->Auth->setUser($authUser);
-				$this->redirect(['action' => 'account']);
+				$out['type']='success';
+				
+				echo json_encode($out);
+				die;				
 			}else{
 				$out['type']='danger';
 				$out['msg']['code']='Code doesnot match.';
 				echo json_encode($out);	
+				die;
 			}
+			die;
 		}
+		die;
+	}
+	
+	public function account(){
+		
 	}
 	
 	public function ajaxRegister()
