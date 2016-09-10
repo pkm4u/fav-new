@@ -48,8 +48,10 @@
 							</label>
 							<div ng-show="alerts.usertype" uib-alert ng-class="'alert-' + (alerttype || 'danger')" close="closeAlert('usertype')">{{alerts.usertype}}</div>
 						</div>
-  
-				
+						</div>
+						 <div class="form-group">
+						 <p><a href="">By clicking SignUp, you agree to Favistas' T & C	</a></p>	
+						</div>
 					   <div>
 						<button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="button" ng-click="userRegister();"><strong>SignUp</strong></button>
 					</div>

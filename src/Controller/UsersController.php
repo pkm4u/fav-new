@@ -25,7 +25,7 @@ class UsersController extends AppController
 	public function beforeFilter(Event $event)
 	{
 		parent::beforeFilter($event);
-		$this->Auth->allow(['index','login','register','register','resetpassword','ajaxLogin','ajaxRegister','resetstepone','passwordreset','setnewpassword']);
+		$this->Auth->allow(['index','login','register','register','resetpassword','ajaxLogin','ajaxRegister','resetstepone','passwordreset','setnewpassword','activation']);
 	}
     /**
      * Index method
@@ -43,6 +43,10 @@ class UsersController extends AppController
 		pr($rembValue);
     }
 	public function register()
+	{
+		$this->viewBuilder()->layout('ajax');
+	}
+	public function activation()
 	{
 		$this->viewBuilder()->layout('ajax');
 	}
@@ -97,6 +101,31 @@ class UsersController extends AppController
 	}
 	
 	
+	public function ajaxActivate(){
+			
+		if(empty($this->request->data['code'])){
+			$error=true;
+			$out['type']='danger';
+			$out['msg']['code']='Please enter code.';
+			echo json_encode($out);	
+		}else{
+			$users = TableRegistry::get('Users');
+			$userData= $users->get($this->request->data['id']);;
+			if($this->request->data['code']==$userData['register_otp']){
+				$data['verification_by_phone']='1';
+				$user = $users->patchEntity($userData, $data, ['validate' => false]);
+				$users->save($user);
+				$authUser = $users->get($this->request->data['id'])->toArray();
+				$this->Auth->setUser($authUser);
+				$this->redirect(['action' => 'account']);
+			}else{
+				$out['type']='danger';
+				$out['msg']['code']='Code doesnot match.';
+				echo json_encode($out);	
+			}
+		}
+	}
+	
 	public function ajaxRegister()
 	{
 		if($this->request->data){
@@ -107,6 +136,8 @@ class UsersController extends AppController
 				if ($this->request->is('post')) {
 					$this->request->data['prefix']= $this->request->data['prefix']['value'];
 					$this->request->data['user_type_id']= $this->request->data['usertype'];
+					$pin = mt_rand(1000, 9999);
+					$this->request->data['register_otp']=$pin;
 					$user = $users->patchEntity($user, $this->request->data);
 					
 					if ($us = $users->save($user)) {
@@ -116,6 +147,10 @@ class UsersController extends AppController
 						$userdetail = $userdetails->patchEntity($userdetail, $this->request->data);
 						$userdetails->save($userdetail);
 						$out['type']='success';
+						$out['email']= $this->request->data['email'];
+						$out['phone']= $this->request->data['phone'];
+						$out['prefix']= $this->request->data['prefix'];
+						$out['id']= $us->id;
 						$out['msg'][]='Successfully Registered.';
 						echo json_encode($out);	
 					} else {

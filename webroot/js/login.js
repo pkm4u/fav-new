@@ -133,6 +133,8 @@ app.controller('LoginCtrl', function ($scope,$rootScope, $uibModal, $uibModalIns
 });
 
 app.controller('RegisterCtrl', function ($scope,$rootScope, $uibModal, $uibModalInstance,$http,$window) {
+	
+ 
 	$scope.options = [{ name: "+91 (IND)", value: "91" }, { name: "+44 (GBR)", value:"44"},{name:"+1 (USA)",value:"1"},{name:"+61 (AUS)",value:"61"},{name:"+60 (MYS)",value:"60"},{name:"+971 (ARE)",value:"971"}];
 	$scope.selectedOption = $scope.options[0];
 	$scope.setusertype=function(value){
@@ -155,17 +157,70 @@ app.controller('RegisterCtrl', function ($scope,$rootScope, $uibModal, $uibModal
 			$rootScope.alerttype=response.data.type;
 			$rootScope.alerts=response.data.msg;
 			if(response.data.type=='success'){
+				$rootScope.actiemail = response.data.email;
+				$rootScope.actiphone = response.data.phone;
+				$rootScope.actiprefix = response.data.prefix;
+				$rootScope.actid = response.data.id;
 				$scope.flash= 'You Have Successfully Registered!';
 				if($rootScope.rmodalInstance){
 					$rootScope.rmodalInstance.close();
 				}
+				 $rootScope.activationmodalInstance = $uibModal.open({
+					  animation: true,
+					  templateUrl: siteUrl+'users/activation',
+					  controller: 'ActivationCtrl',
+					  
+					  resolve: {
+						
+					  }
+					});
+  
 			}
 		}, function errorCallback(response) {
 			$rootScope.pageLoader=false;
 	});
   };
 });
-
+app.controller('ActivationCtrl', function ($scope,$rootScope, $uibModal, $uibModalInstance,$http,$window) {
+	$rootScope.userActivate = function () {
+		
+	  $rootScope.pageLoader=true;
+	  $rootScope.alerts='';
+	  var request={
+				  method: 'POST',
+				  url:  siteUrl+'users/ajaxActivate/',
+				  headers: {'X-CSRF-TOKEN': token},
+				  data:{code:$scope.code,email:$scope.email,phone:$scope.phone}
+				}
+	$http(request).then(function successCallback(response) {
+		
+			$rootScope.pageLoader=false;
+			$rootScope.alerttype=response.data.type;
+			$rootScope.alerts=response.data.msg;
+			if(response.data.type=='success'){
+				$rootScope.actiemail = response.data.email;
+				$rootScope.actiphone = response.data.phone;
+				$rootScope.actiprefix = response.data.prefix;
+				$scope.flash= 'You Have Successfully Registered!';
+				if($rootScope.rmodalInstance){
+					$rootScope.rmodalInstance.close();
+				}
+				 $rootScope.activationmodalInstance = $uibModal.open({
+					  animation: true,
+					  templateUrl: siteUrl+'users/activation',
+					  controller: 'ActivationCtrl',
+					  
+					  resolve: {
+						
+					  }
+					});
+  
+			}
+		}, function errorCallback(response) {
+			$rootScope.pageLoader=false;
+	});
+  };
+});
 app.controller('ResetCtrl', function ($scope,$rootScope, $uibModal, $uibModalInstance,$http) {
 	$rootScope.resetpassword = function () {
 	$rootScope.pageLoader=true;
