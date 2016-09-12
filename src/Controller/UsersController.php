@@ -108,6 +108,7 @@ class UsersController extends AppController
 				$user = $users->patchEntity($userData, $data, ['validate' => false]);
 				$users->save($user);
 				$authUser = $users->get($this->request->data['id'])->toArray();
+				
 				$this->Auth->setUser($authUser);
 				$this->redirect(['action' => 'account']);
 			}else{

@@ -34,7 +34,7 @@ class ApiController extends AppController
     {
 		$cities = TableRegistry::get('Cities');
 		$allCities=$cities->find()->select(['id','name'])->where(['is_deleted'=>0])->all();
-		echo json_encode($allCities);
+		echo json_encode(['type'=>'success','cities'=>$allCities]);
 		die;	
     }
 	 public function locations($id=null)
@@ -42,9 +42,14 @@ class ApiController extends AppController
 		if($id){
 			$locations = TableRegistry::get('Locations');
 			$allLocations=$locations->find()->select(['id','name'])->where(['city_id'=>$id,'is_deleted'=>0])->all();
-			echo json_encode(['type'=>'success','locations'=>$allLocations]);
+			if($allLocations->toArray()){
+				echo json_encode(['type'=>'success','locations'=>$allLocations]);
+			}else{
+				echo json_encode(['type'=>'success','locations'=>[['id'=>'','name'=>'NO location found.']]]);
+			}
+			
 		}else{
-			echo json_encode(['type'=>'success','locations'=>'NO location found.']);
+			echo json_encode(['type'=>'success','locations'=>['name'=>'NO location found.']]);
 		}
 		die;	
     }

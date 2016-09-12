@@ -54,9 +54,7 @@ class PostpropertyController extends AppController
 		if(!$this->Auth->user()){
 			$this->set('Login','True');
 		}
-		$cities = TableRegistry::get('Cities');
-		$allCities=$cities->find()->select(['id','name'])->where(['is_deleted'=>0])->all();
-		$this->set('cities',json_encode($allCities));
+		
     }
     public function post()
     {

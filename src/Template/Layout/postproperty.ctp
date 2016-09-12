@@ -23,7 +23,7 @@
         <?= $this->fetch('title') ?>
     </title>
     <?= $this->Html->meta('icon') ?>
-	<?= $this->Html->css(['bootstrap.min.css','add-listing.css','animate.min.css','listing-ui.css']) ?>
+	<?= $this->Html->css(['bootstrap.min.css','add-listing.css','angular-material.min.css','animate.min.css','listing-ui.css']) ?>
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/css?family=Carrois+Gothic|Open+Sans|Raleway" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
@@ -44,12 +44,8 @@
 	<?php if(isset($Login)){?>
 		 userLogin=true;
 	<?php }?>
-	<?php if(isset($cities)){?>
-		 cities=<?php echo $cities;?>;
-	<?php }?>
-	
 </script>  
-    <?= $this->Html->script(['angular.min','angular-animate.min','angular-sanitize.min','angular-touch.min','ui-bootstrap.min','angular-bootstrap-checkbox','postproperty','login']); ?> 
+    <?= $this->Html->script(['angular.min','angular-aria.min.js','angular-material.min','angular-animate.min','angular-sanitize.min','angular-messages.min','angular-touch.min','ui-bootstrap.min','postproperty','login']); ?>
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
