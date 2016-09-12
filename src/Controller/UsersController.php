@@ -39,7 +39,7 @@ class UsersController extends AppController
 	public function login()
     {
 		$this->viewBuilder()->layout('ajax');
-		//pr($this->Cookie->read('Remember'));
+		
 		
     }
 	public function register()
@@ -77,9 +77,7 @@ class UsersController extends AppController
 				$out['type']='success';
 				$out['msg']['sucess']='Successfully login.';
 				$out['user']=$this->Auth->user();
-				if(isset($this->request->data['remember'])){
-					$this->Cookie->write('Remember', $this->request->data, true);
-				}
+				
 				
 				echo json_encode($out);	
 				

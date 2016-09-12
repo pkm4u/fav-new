@@ -4,6 +4,16 @@ var app = angular.module('fav', ['ngMaterial','ngSanitize','ngAnimate','ui.boots
 			return str.replace(/ /gi,"-" );
 		};
 	});
+	app.filter('floorOn', function() {
+		  return function(input, total) {
+			total = parseInt(total);
+			for (var i=0; i<total; i++) {
+			  input.push(i+1);
+			}
+			return input;
+		  };
+		});
+	
    app.controller('FavController', function($scope,$rootScope,$log,$http,$timeout,$uibModal,$log,$q) {
 	   	$rootScope.base_url=siteUrl;
 		$scope.cityname='Select City';
@@ -18,7 +28,9 @@ var app = angular.module('fav', ['ngMaterial','ngSanitize','ngAnimate','ui.boots
               }).
               error(function(data, status) {
                 console.log(data || "Request failed");
-           }); 
+           });
+		   
+		 $scope.totalFloors=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,'+20']; 
 		   //************** For CheckBox********************* // 
 			  $scope.toggle = function (item, list) {
 				var idx = list.indexOf(item);
