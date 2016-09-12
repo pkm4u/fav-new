@@ -174,7 +174,9 @@ app.controller('RegisterCtrl', function ($scope,$rootScope, $uibModal, $uibModal
 					  controller: 'ActivationCtrl',
 					  
 					  resolve: {
-						
+						 usrId: function () {
+							   return response.data.id;
+							 }
 					  }
 					});
   
@@ -184,8 +186,8 @@ app.controller('RegisterCtrl', function ($scope,$rootScope, $uibModal, $uibModal
 	});
   };
 });
-app.controller('ActivationCtrl', function ($scope,$rootScope, $uibModal, $uibModalInstance,$http,$window) {
-	
+app.controller('ActivationCtrl',function ($scope,$rootScope, $uibModal, $uibModalInstance,$http,$window) {
+	//$window.alert(userId);
 	$rootScope.userActivate = function (uid) {
 		
 	  $rootScope.pageLoader=true;
