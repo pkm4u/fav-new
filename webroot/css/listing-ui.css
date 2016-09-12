@@ -57,3 +57,71 @@
         background-size: 240px 24px;
     }
 }
+
+
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+.custom-select .custom-select-val::after {
+    content: "";
+    font-family: "FontAwesome";
+    padding: 12px 0;
+    position: absolute;
+    right: 14px;
+    top: 0;
+}
+.custom-select.cs-default .custom-select-val {
+    color: #000;
+}
+.custom-select .custom-select-val {
+    background: #eaedef none repeat scroll 0 0;
+    border: 1px solid #d7d7d7;
+    color: #000;
+    cursor: pointer;
+    font-family: Roboto;
+    font-size: 16px;
+    padding: 12px 35px 12px 15px;
+    position: relative;
+    transition: all 0.2s ease-out 0s;
+    width: 100%;
+}
+.custom-select .custom-select-list {
+    background-color: #fff;
+    border-bottom: 1px solid #d7d7d7;
+    opacity: 1;
+    position: absolute;
+    transition: all 0.2s ease-out 0s;
+    width: 100%;
+    z-index: 9999;
+}
+.stroll-list {
+    height: 280px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    perspective: 400px;
+}
+input {
+    background-color: transparent;
+    border: 1px solid #d7d7d7;
+    color: #343434;
+    line-height: 1.1;
+    outline: medium none;
+    padding: 16px 15px;
+    transition: all 0.2s ease-out 0s;
+    width: 100%;
+}
+.custom-select .custom-select-list li .custom-select-item-content {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: -moz-use-text-color #d7d7d7 #d7d7d7;
+    border-image: none;
+    border-style: none solid solid;
+    border-width: medium 1px 1px;
+    color: #696969;
+    cursor: pointer;
+    padding: 12px 15px;
+    transition: all 0.2s ease-out 0s;
+}

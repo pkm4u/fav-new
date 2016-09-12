@@ -44,8 +44,8 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
 		$this->loadComponent('Csrf');
-		$this->loadComponent('Cookie');
-		//$this->loadComponent('SendMail');
+		$this->loadComponent('Cookie',['expires' => '+10 days']);
+		$this->loadComponent('SendMail');
 		 $this->loadComponent('Auth', [
 				'authenticate' => [
 					'Form' => [

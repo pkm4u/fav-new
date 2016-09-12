@@ -13,11 +13,12 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
 namespace App\Controller;
-
+use Cake\ORM\TableRegistry;
 use Cake\Core\Configure;
 use Cake\Network\Exception\NotFoundException;
 use Cake\View\Exception\MissingTemplateException;
 Use Cake\Event\Event;
+use Cake\Controller\Component\CookieComponent;
 /**
  * Static content controller
  *
@@ -53,9 +54,7 @@ class PostpropertyController extends AppController
 		if(!$this->Auth->user()){
 			$this->set('Login','True');
 		}
-		//$this->Cookie->delete('name');
-		echo $this->Cookie->read('name');
-       
+		
     }
     public function post()
     {
