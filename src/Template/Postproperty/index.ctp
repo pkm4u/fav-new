@@ -54,7 +54,6 @@
                 <div class="ibox-content">
                     <h2>Property Type :</h2>
                     <md-select ng-model="propType" placeholder="Select Type">
-                    
                     <md-option ng-value="1">Apartment</md-option>
                     <md-option ng-value="2">Independent/Builder floor</md-option>
                     <md-option ng-value="3">Villa</md-option>
