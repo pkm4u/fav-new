@@ -23,14 +23,12 @@
       </fieldset>
       <button ng-click="setnewpassword();" class="btn btn-primary btn-block" type="button" id="loginBtn">Set New Password</button>
        </div>
-       
     <div class="modal-footer"></div>
     <?php }else{?>
-    
     <div class="modal-body">
       <fieldset>
         <div class="form-group">
-          <input type="text" maxlength="50" required placeholder="User Name/Email" class="form-control" name="username" ng-model="username">
+          <input type="text" maxlength="50" required placeholder="Email" class="form-control" name="username" ng-model="username">
         </div>
       </fieldset>
       <button ng-click="resetpassword();" class="btn btn-primary btn-block" type="button" id="loginBtn">Reset</button>

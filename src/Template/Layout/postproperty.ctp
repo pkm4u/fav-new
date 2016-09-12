@@ -32,6 +32,7 @@
   	var resetLink=false;
 	var userLogin=false;
 	var user='';
+	var cities='';
 	var token='<?php echo $this->request->param('_csrfToken');?>';
 	var siteUrl='<?php echo $this->request->webroot;?>';
 	<?php if($this->request->session()->read('resetAuth')){?>
@@ -43,8 +44,12 @@
 	<?php if(isset($Login)){?>
 		 userLogin=true;
 	<?php }?>
+	<?php if(isset($cities)){?>
+		 cities=<?php echo $cities;?>;
+	<?php }?>
+	
 </script>  
-    <?= $this->Html->script(['angular.min','angular-animate.min','angular-sanitize.min','angular-touch.min','ui-bootstrap.min','postproperty','login']); ?> 
+    <?= $this->Html->script(['angular.min','angular-animate.min','angular-sanitize.min','angular-touch.min','ui-bootstrap.min','angular-bootstrap-checkbox','postproperty','login']); ?> 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>

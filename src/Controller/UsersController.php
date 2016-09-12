@@ -2,13 +2,13 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\ORM\TableRegistry; // 9990650660
-use Cake\Cache\Cache; // 
+use Cake\ORM\TableRegistry;
+use Cake\Cache\Cache;
 Use Cake\Event\Event;
 use Cake\Filesystem\File;
 use Cake\Utility\Text;
 use Cake\Routing\Router;
-//use Cake\Controller\Component\CookieComponent;
+use Cake\Controller\Component\CookieComponent;
 
 /**
  * Villages Controller
@@ -39,8 +39,8 @@ class UsersController extends AppController
 	public function login()
     {
 		$this->viewBuilder()->layout('ajax');
-		echo $this->Cookie->read('name');
-		pr($rembValue);
+		//pr($this->Cookie->read('Remember'));
+		
     }
 	public function register()
 	{
@@ -77,16 +77,8 @@ class UsersController extends AppController
 				$out['type']='success';
 				$out['msg']['sucess']='Successfully login.';
 				$out['user']=$this->Auth->user();
-				if($this->request->data['remember']){
-					$this->Cookie->configKey('Remember', 'path', '/');
-					$this->Cookie->configKey('Remember', [
-						'expires' => '+10 days',
-						'httpOnly' => true
-					]);
-					$this->Cookie->write('Remember', 'Larryyyyyyy');
-					echo $this->Cookie->read('Remember');
-					pr($this->request->data);
-					die;
+				if(isset($this->request->data['remember'])){
+					$this->Cookie->write('Remember', $this->request->data, true);
 				}
 				
 				echo json_encode($out);	
