@@ -22,11 +22,10 @@
 					  <span ng-show="!code.length" ng-class="danger">This field is required.</span>
                        <div ng-show="alerts.code" uib-alert ng-class="'alert-' + (alerttype || 'danger')" close="closeAlert('code')">{{alerts.code}}</div>
                      </div>
-                    <input type="hidden" name="email" value="{{actiemail}}" ng-model="email">
-					<input type="hidden" name="phone" value="{{actiphone}}" ng-model="phone">
-					<input type="hidden" name="phone" value="{{actid}}" ng-model="user_id">
+					
+                   
 						<div>
-						<button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="button" ng-click="userActivate();"><strong>Verify</strong></button>
+						<button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="button" ng-click="userActivate(<?php echo $user_id;?>);"><strong>Verify</strong></button>
 					</div>
 					   
 					</fieldset>

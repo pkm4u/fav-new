@@ -223,7 +223,8 @@
 			      <h2>Property on Floor</h2>
                   <md-select ng-model="floorOn" placeholder="Select Type">
                     <md-option ng-repeat="flooron in []|floorOn:floors" ng-value="flooron">{{flooron}}</md-option>
-                  </md-select>                  
+                  </md-select>
+                                    
 			   </div>
 			</div>
 			

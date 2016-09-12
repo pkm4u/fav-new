@@ -42,7 +42,10 @@ app.controller('NavCtrl', function ($scope,$rootScope, $uibModal,$log) {
 	  }
 	if($rootScope.rpmodalInstance){
 		$rootScope.rpmodalInstance.close();
-	  }  
+	  } 
+if($rootScope.activationmodalInstance){
+		$rootScope.activationmodalInstance.close();
+	  }  	  
   }; 
   if(userLogin){
   	$rootScope.lmodalInstance = $uibModal.open({
@@ -167,11 +170,13 @@ app.controller('RegisterCtrl', function ($scope,$rootScope, $uibModal, $uibModal
 				}
 				 $rootScope.activationmodalInstance = $uibModal.open({
 					  animation: true,
-					  templateUrl: siteUrl+'users/activation',
+					  templateUrl: siteUrl+'users/activation/'+response.data.id,
 					  controller: 'ActivationCtrl',
 					  
 					  resolve: {
-						
+						 usrId: function () {
+							   return response.data.id;
+							 }
 					  }
 					});
   
@@ -181,8 +186,9 @@ app.controller('RegisterCtrl', function ($scope,$rootScope, $uibModal, $uibModal
 	});
   };
 });
-app.controller('ActivationCtrl', function ($scope,$rootScope, $uibModal, $uibModalInstance,$http,$window) {
-	$rootScope.userActivate = function () {
+app.controller('ActivationCtrl',function ($scope,$rootScope, $uibModal, $uibModalInstance,$http,$window) {
+	//$window.alert(userId);
+	$rootScope.userActivate = function (uid) {
 		
 	  $rootScope.pageLoader=true;
 	  $rootScope.alerts='';
@@ -190,31 +196,15 @@ app.controller('ActivationCtrl', function ($scope,$rootScope, $uibModal, $uibMod
 				  method: 'POST',
 				  url:  siteUrl+'users/ajaxActivate/',
 				  headers: {'X-CSRF-TOKEN': token},
-				  data:{code:$scope.code,email:$scope.email,phone:$scope.phone}
+				  data:{code:$scope.code,userid:uid}
 				}
 	$http(request).then(function successCallback(response) {
 		
 			$rootScope.pageLoader=false;
 			$rootScope.alerttype=response.data.type;
 			$rootScope.alerts=response.data.msg;
-			if(response.data.type=='success'){
-				$rootScope.actiemail = response.data.email;
-				$rootScope.actiphone = response.data.phone;
-				$rootScope.actiprefix = response.data.prefix;
-				$scope.flash= 'You Have Successfully Registered!';
-				if($rootScope.rmodalInstance){
-					$rootScope.rmodalInstance.close();
-				}
-				 $rootScope.activationmodalInstance = $uibModal.open({
-					  animation: true,
-					  templateUrl: siteUrl+'users/activation',
-					  controller: 'ActivationCtrl',
-					  
-					  resolve: {
-						
-					  }
-					});
-  
+			if(response.data.type==='success'){
+				$window.location.href = siteUrl+'users/account/';
 			}
 		}, function errorCallback(response) {
 			$rootScope.pageLoader=false;
