@@ -47,9 +47,13 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <nav class="menu-container underscore-container menu-container-fade {{mobClass}}">
         <ul>
             <li>
-			<?php if ($this->Auth->user()) {
-				?>
-				<h1>Welcome <?php echo $this->Auth->user('name');?><a class="login" data-toggle="modal" ng-click="lopen('sm')" href="javascript:void(0);"> Logout</a></h1>
+			<?php $loguser = $this->request->session()->read('Auth.User');
+				if($loguser){
+					
+					?>
+					<h1>Welcome <?php echo $loguser['name'];?><a class="login" data-toggle="modal" ng-click="lopen('sm')" href="javascript:void(0);"> Logout</a></h1>
+				
+				
 			<?php }else{
 				?>
 				<h1> <a class="login" data-toggle="modal" ng-click="lopen('sm')" href="javascript:void(0);"> Login/Register </a></h1>

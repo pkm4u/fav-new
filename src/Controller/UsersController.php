@@ -135,7 +135,7 @@ class UsersController extends AppController
 	}
 	
 	public function account(){
-		
+		$this->viewBuilder()->layout('default');
 	}
 	
 	public function ajaxRegister()
@@ -302,5 +302,14 @@ class UsersController extends AppController
 			'controller' => 'Postproperty',
 			'action' => 'index'
 		]);
+	}
+	
+	public function set_preference($id=null){
+		if(!$id){
+			throw new NotFoundException(__('Invalid user'));
+		}
+		
+		
+		
 	}
 }
