@@ -14,5 +14,10 @@
  */
 
 ?>
+<div class="col-md-12">
+    <legend>Pictures/Photos </legend>
+</div>
 
-Postproperty Post
+<div class="col-md-6">
+    <md-button class="md-raised md-primary pull-right">Finished</md-button>
+</div>

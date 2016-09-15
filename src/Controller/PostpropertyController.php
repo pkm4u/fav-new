@@ -54,11 +54,67 @@ class PostpropertyController extends AppController
 		if(!$this->Auth->user()){
 			$this->set('Login','True');
 		}
+		try{
+		$projects=json_decode(file_get_contents('http://www.favista.com/cities/all_newlaunchprojects/1'),true);
+			if($projects){
+				foreach($projects as $key=>$pro){
+					$data[]=array('display'=>$pro,'value'=>$key);
+				}
+			}
+			$this->set('projects',json_encode($data));
+		}catch(\Exception $e ){
+			throw new NotFoundException();
+		}
+    }
+	 public function loadviews($type)
+    {
+		$this->viewBuilder()->layout('ajax');
+		$this->render($type);
 		
     }
-    public function post()
+	
+	
+    public function saveinfo()
     {
-
+		$this->request->data;
+		$out['type']='success';
+		echo json_encode($out);
+	   die;
+    }
+	
+	public function saveamenities()
+    {
+		$this->request->data;
+		$out['type']='success';
+		echo json_encode($out);
+	   die;
+    }
+	public function savedetails()
+    {
+		$this->request->data;
+		$out['type']='success';
+		echo json_encode($out);
+	   die;
+    }
+	public function saveaddress()
+    {
+		$this->request->data;
+		$out['type']='success';
+		echo json_encode($out);
+	   die;
+    }
+	public function savepricing()
+    {
+		$this->request->data;
+		$out['type']='success';
+		echo json_encode($out);
+	   die;
+    }
+	public function savephotos()
+    {
+		$this->request->data;
+		$out['type']='success';
+		echo json_encode($out);
 	   die;
     }
 }

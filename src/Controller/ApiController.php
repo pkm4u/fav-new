@@ -7,6 +7,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Cache\Cache;
 Use Cake\Event\Event;
 use Cake\Filesystem\File;
+
 /**
  * Villages Controller
  *
@@ -55,11 +56,41 @@ class ApiController extends AppController
     }
  public function amenities()
     {
-		
 			$amenities = TableRegistry::get('Amenities');
 			$allAmenities=$amenities->find()->select(['id','name'])->where(['is_deleted'=>0])->all();
 			echo json_encode(['type'=>'success','amenities'=>$allAmenities]);
 		die;	
     }
 	
+	public function allProject($city)
+    {
+			/*$dsn = 'mysql://webszr1:NewADBs#@!@favista.com/favista';
+			ConnectionManager::config('favista', ['url' => $dsn]);
+			$connection = ConnectionManager::get('favista');
+			$results = $connection->execute('SELECT id FROM fv_projects LIMIT 0,5')->fetchAll('assoc');*/
+			if(empty($city) || $city=='undefined'){
+				$city=1;
+			}
+		$projects=json_decode(file_get_contents('http://www.favista.com/cities/all_newlaunchprojects/'.$city),true);
+			if($projects){
+				foreach($projects as $key=>$pro){
+					$data[]=array('display'=>$pro,'value'=>$key);
+				}
+			}
+			echo json_encode(['type'=>'success','projects'=>$data]);
+		die;	
+    }
+	public function projectDetails($city,$id)
+    {
+			if(empty($id) || $id=='undefined'){
+				$id=1;
+			}
+		$project=json_decode(file_get_contents('http://www.favista.com/cities/all_newlaunchprojects/'.$city.'/'.$id),true);
+			if($project){
+				$data['lat']=$project['Project']['lat'];
+				$data['long']=$project['Project']['lon'];
+			}
+			echo json_encode(['type'=>'success','project'=>$data]);
+		die;	
+    }
 }
