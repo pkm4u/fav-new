@@ -1,13 +1,14 @@
 <?php
 namespace App\Controller;
+
 use App\Controller\AppController;
-use Cake\ORM\TableRegistry;
-use Cake\Cache\Cache;
+use Cake\ORM\TableRegistry; // 9990650660
+use Cake\Cache\Cache; // 
 Use Cake\Event\Event;
 use Cake\Filesystem\File;
 use Cake\Utility\Text;
 use Cake\Routing\Router;
-use Cake\Controller\Component\CookieComponent;
+//use Cake\Controller\Component\CookieComponent;
 
 /**
  * Villages Controller
@@ -24,7 +25,7 @@ class UsersController extends AppController
 	public function beforeFilter(Event $event)
 	{
 		parent::beforeFilter($event);
-		$this->Auth->allow(['index','login','register','register','resetpassword','ajaxLogin','ajaxRegister','resetstepone','passwordreset','setnewpassword','activation']);
+		$this->Auth->allow(['index','login','register','register','resetpassword','ajaxLogin','ajaxRegister','resetstepone','passwordreset','setnewpassword','activation','ajaxActivate','setPreference']);
 	}
     /**
      * Index method
@@ -38,15 +39,16 @@ class UsersController extends AppController
 	public function login()
     {
 		$this->viewBuilder()->layout('ajax');
-		
-		
+		echo $this->Cookie->read('name');
+		pr($rembValue);
     }
 	public function register()
 	{
 		$this->viewBuilder()->layout('ajax');
 	}
-	public function activation()
+	public function activation($id = null)
 	{
+		$this->set('user_id',$id);
 		$this->viewBuilder()->layout('ajax');
 	}
 	public function resetpassword()
@@ -76,7 +78,17 @@ class UsersController extends AppController
 				$out['type']='success';
 				$out['msg']['sucess']='Successfully login.';
 				$out['user']=$this->Auth->user();
-				
+				if($this->request->data['remember']){
+					$this->Cookie->configKey('Remember', 'path', '/');
+					$this->Cookie->configKey('Remember', [
+						'expires' => '+10 days',
+						'httpOnly' => true
+					]);
+					$this->Cookie->write('Remember', 'Larryyyyyyy');
+					echo $this->Cookie->read('Remember');
+					pr($this->request->data);
+					die;
+				}
 				
 				echo json_encode($out);	
 				
@@ -98,22 +110,32 @@ class UsersController extends AppController
 			$out['msg']['code']='Please enter code.';
 			echo json_encode($out);	
 		}else{
+			
 			$users = TableRegistry::get('Users');
-			$userData= $users->get($this->request->data['id']);;
+			$userData= $users->get($this->request->data['userid']);;
 			if($this->request->data['code']==$userData['register_otp']){
 				$data['verification_by_phone']='1';
 				$user = $users->patchEntity($userData, $data, ['validate' => false]);
 				$users->save($user);
-				$authUser = $users->get($this->request->data['id'])->toArray();
-				
+				$authUser = $users->get($this->request->data['userid'])->toArray();
 				$this->Auth->setUser($authUser);
-				$this->redirect(['action' => 'account']);
+				$out['type']='success';
+				
+				echo json_encode($out);
+				die;				
 			}else{
 				$out['type']='danger';
 				$out['msg']['code']='Code doesnot match.';
 				echo json_encode($out);	
+				die;
 			}
+			die;
 		}
+		die;
+	}
+	
+	public function account(){
+		
 	}
 	
 	public function ajaxRegister()
@@ -281,4 +303,16 @@ class UsersController extends AppController
 			'action' => 'index'
 		]);
 	}
+
+	
+	public function setPreference($id=null){
+		/*if(!$id){
+			throw new NotFoundException(__('Invalid user'));
+		}
+		$id = $this->Auth->user('id');*/
+		$this->viewBuilder()->layout('profile');
+		
+		
+	}
+
 }

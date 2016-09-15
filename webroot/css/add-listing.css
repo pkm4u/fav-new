@@ -12,7 +12,7 @@ body {
     color: #2b2b2b;
     /* font-family: Roboto Condensed !important; */
     font-size: 13px;
-    overflow-x: hidden;
+   
     line-height: 23px;
     background: #f6f7f9;
 }
@@ -3506,7 +3506,7 @@ body {
     
   font-size: 13px;
   color: #676a6c;
-  overflow-x: hidden;
+  
 }
 html,
 body {
@@ -3539,7 +3539,7 @@ body.boxed-layout #wrapper {
 }
 .clear {
   display: block;
-  overflow: hidden;
+ 
 }
 a {
   cursor: pointer;
@@ -3649,7 +3649,7 @@ video {
 /* WRAPPERS */
 #wrapper {
   width: 100%;
-  overflow-x: hidden;
+ 
 }
 .wrapper {
   padding: 0 20px;
