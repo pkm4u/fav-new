@@ -20,7 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
         <?= $cakeDescription="Favista Real Estate " ?>:
-        <?= $this->fetch('title') ?>
+        <?= 'Post Property' ?>
     </title>
     <?= $this->Html->meta('icon') ?>
 	<?= $this->Html->css(['bootstrap.min.css','add-listing.css','angular-material.min.css','animate.min.css','listing-ui.css']) ?>
@@ -44,8 +44,13 @@
 	<?php if(isset($Login)){?>
 		 userLogin=true;
 	<?php }?>
-</script>  
-    <?= $this->Html->script(['angular.min','angular-aria.min.js','angular-material.min','angular-animate.min','angular-sanitize.min','angular-messages.min','angular-touch.min','ui-bootstrap.min','postproperty','login']); ?>
+	<?php if(isset($projects)){?>
+		var allCityProjects=<?php echo $projects?>;
+	<?php }?>
+</script>
+
+	<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCN3oKZWBC0E5SDMEtGVYDDi3i-slnV0MU" type="text/javascript"></script>
+    <?= $this->Html->script(['angular.min','angular-aria.min.js','angular-material.min','angular-animate.min','angular-sanitize.min','angular-messages.min','angular-touch.min','ui-bootstrap.min','ng-map.min','postproperty','login']); ?>
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
@@ -84,9 +89,9 @@
 		
     </div>
 </header>   
-    <section ng-controller="FavController">
+    <section class="listing-section" ng-controller="FavController">
       <header class="page-header">
-		    <div class="container">
+		    <div class="container" >
 				<a href="#" class=""><i class="fa fa-long-arrow-left"></i></a>
 				<h2 class="text-center ">List your Property</h2>
 			</div>
@@ -97,12 +102,13 @@
                <div class="col-md-3 pdallnone">
 				    <nav class="sidenav">
 						<ul>
-							<li class="first active"><a href="#" ng-click="post();"><span><i class="fa fa-list-ul"></i></span> Basic Information</a></li>
-							<li><a href="#"><span><i class="fa fa-list-ul"></i></span> Amenities</a></li>
-							<li><a href="#"><span><i class="fa fa-map-marker"></i></span> Location</a></li>
-							<li><a href="#"><span><i class="fa fa-picture-o"></i></span> Pictures/Photos</a></li>
-							<li><a href="#"><span><i class="fa fa-inr"></i></span> Price Detail</a></li>
-							<li class="last "><a href="#"><span><i class="fa fa-envelope"></i></span> Contact Detail</a></li>
+							<li class="first {{activeIndx==0?'active':''}}">
+                            <a href="javascript:void(0)" ng-click="propmenu('BasicInfo');" ><span><i class="fa fa-list-ul"></i></span> Basic Information</a></li>
+							<li class="{{activeIndx==1 ? 'active':''}}"><a href="javascript:void(0)" ng-click="propmenu('Amenities');"><span><i class="fa fa-list-ul"></i></span> Amenities</a></li>
+							<li class="{{activeIndx==2 ? 'active':''}}"><a href="javascript:void(0)" ng-click="propmenu('PropertyDetail');"><span><i class="fa fa-map-marker"></i></span> Property Detail</a></li>
+                            <li class="{{activeIndx==3 ? 'active':''}}"><a href="javascript:void(0)" ng-click="propmenu('CompleteAddress');"><span><i class="fa fa-map-marker"></i></span> Complete Address</a></li>
+                            <li class="{{activeIndx==4 ? 'active':''}}"><a href="javascript:void(0)" ng-click="propmenu('Pricing');"><span><i class="fa fa-inr"></i></span> Pricing</a></li>
+							<li class="{{activeIndx==5 ? 'active':''}}"><a href="javascript:void(0)" ng-click="propmenu('Photos');"><span><i class="fa fa-picture-o"></i></span> Pictures/Photos</a></li>
 						</ul>
 					</nav>
 				 </div>
@@ -110,6 +116,19 @@
         </div>
 		</div>
 		</div>
+    <div id="page-loader" ng-show="pageLoader">
+    	<div class="centered-columns">
+        	<div class="centered-column" style="color:#fff">
+            	<md-progress-circular class="md-warn md-hue-3 center-loader" md-diameter="70"></md-progress-circular>
+            </div>
+        </div>
+    </div>    
+    
    </section>
+   <div class="mrtp40"></div>
+   <footer class="secondery">
+    <div class="footer">&copy; 2016 Favista Real Estate Pvt. Ltd., All Rights Reserved.</div> 
+ </footer>
+
 </body>
 </html>
