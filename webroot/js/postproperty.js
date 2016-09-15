@@ -54,7 +54,9 @@ var app = angular.module('fav', ['ngMaterial','ngSanitize','ngAnimate','ui.boots
 						$rootScope.alerttype=response.data.type;
 						$rootScope.alerts=response.data.msg;
 						if(response.data.type=='success'){
-							$rootScope.cities=response.data.cities;
+							$timeout(function() {
+								$rootScope.cities=response.data.cities;
+							},600);
 						}
 					}, function errorCallback(response) {
 						console.log(data || "Request failed");
